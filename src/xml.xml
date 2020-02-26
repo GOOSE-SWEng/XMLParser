@@ -21,6 +21,7 @@
 		<id>Home</id>
 		<duration>60</duration>
 		<text>
+			HELLO
 			<font>Arial</font>
 			<fontsize>24</fontsize>
 			<fontcolor>Black</fontcolor>

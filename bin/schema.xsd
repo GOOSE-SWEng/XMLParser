@@ -2,16 +2,16 @@
 <schema version="1.0">
     <element name="slideshow">
         <annotation>
-            <documentation>
+            <info>
                 Note: i) All coordinates represent the top-left corner of the object in question, as a percentage of the slide size. ii) All widths and heights are percentages of the slide size. iii) All URL's (typically 'urlname') are absolute or relative to current URL. iv) All colour's are represented by a string of the form '#ffffff' where each pair of characters after the hash are the hexadecimal representation of red, green, blue respectively. v) A duration of -1 means forever.
-            </documentation>
+            </info>
         </annotation>
         <type>
             <element name="documentinfo">
                 <annotation>
-                    <documentation>
+                    <info>
                         Information on the current document, e.g., author, version.
-                    </documentation>
+                    </info>
                 </annotation>
                 <type>
                     <element name="author" type="string"/>
@@ -23,9 +23,9 @@
             </element>
             <element name="defaults">
                 <annotation>
-                    <documentation>
+                    <info>
                         Default look and feel for slides - these elements should be applied by default to all slides.
-                    </documentation>
+                    </info>
                 </annotation>
                 <type>
                     <element name="backgroundcolor" type="string"/>
@@ -40,16 +40,16 @@
             </element>
             <element name="slide">
                 <annotation>
-                    <documentation>
+                    <info>
                         Individual slide
-                    </documentation>
+                    </info>
                 </annotation>
                 <type>
                     <attribute name="id" type="string">
                         <annotation>
-                            <documentation>
+                            <info>
                                 ID for this slide - could be used to leap around slideshow.
-                            </documentation>
+                            </info>
                         </annotation>
                     </attribute>
 					<attribute name="duration" type="int">
@@ -61,9 +61,9 @@
 					</attribute>
                     <element name="text" type="string">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Text to be displayed.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="font" type="string"/>
@@ -73,37 +73,37 @@
                             <attribute name="ypos" type="decimal"/>
                             <attribute name="starttime" type="int"/>
 								<annotation>
-									<documentation>
+									<info>
 										Number of milliseconds after slide is loaded that the text should appear.
-									</documentation>
+									</info>
 								</annotation>
                             <attribute name="endtime" type="int"/>
 								<annotation>
-									<documentation>
+									<info>
 										Number of milliseconds after slide is loaded that the text should disappear.
-									</documentation>
+									</info>
 								</annotation>
                             <element name="b" type="string">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Encapsulates bold text.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </element>
                             <element name="i" type="string">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Encapsulates italicised text.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </element>
                         </type>
                     </element>
                     <element name="line">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Line to be displayed.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="xstart" type="decimal"/>
@@ -117,9 +117,9 @@
                     </element>
                     <element name="shape">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Shape to be displayed.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="type" type="'oval'|'rectangle'"/>
@@ -132,9 +132,9 @@
                             <attribute name="endtime" type="int"/>
                             <element name="shading">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         If present, specifies a gradient fill. Parameters are as described in 'java.awt.GradientPaint'.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                                 <type>
                                     <attribute name="x1" type="int"/>
@@ -150,33 +150,33 @@
                     </element>
                     <element name="audio">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Sound to be played, either '.wav' or '.mp3'.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="urlname" type="string"/>
                             <attribute name="starttime" type="int">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Number of milliseconds audio should start playing after slide is loaded.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </attribute>
                             <attribute name="loop" type="boolean">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Whether the audio should loop for the current slide - loop if set to true.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </attribute>
                         </type>
                     </element>
                     <element name="image">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Image to be displayed, either GIF or JPEG.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="urlname" type="string"/>
@@ -186,38 +186,38 @@
                             <attribute name="height" type="decimal"/>
                             <attribute name="starttime" type="int"/>
 								<annotation>
-                                    <documentation>
+                                    <info>
                                         Number of milliseconds after slide is loaded that the image should appear.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             <attribute name="endtime" type="int"/>
 								<annotation>
-                                    <documentation>
+                                    <info>
                                         Number of milliseconds after slide is loaded that the image should disappear.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                         </type>
                     </element>
                     <element name="video">
                         <annotation>
-                            <documentation>
+                            <info>
                                 Video to be played.
-                            </documentation>
+                            </info>
                         </annotation>
                         <type>
                             <attribute name="urlname" type="string"/>
                             <attribute name="starttime" type="int">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Number of milliseconds video should start playing after slide is loaded.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </attribute>
                             <attribute name="loop" type="boolean">
                                 <annotation>
-                                    <documentation>
+                                    <info>
                                         Whether the video should loop for the current slide - loop if set to true.
-                                    </documentation>
+                                    </info>
                                 </annotation>
                             </attribute>
                             <attribute name="xstart" type="decimal"/>
