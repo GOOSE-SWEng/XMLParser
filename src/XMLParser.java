@@ -1,15 +1,9 @@
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,21 +18,97 @@ public class XMLParser {
 	static Document xmlDoc;
 	public static ArrayList<Slide> slides = new ArrayList<>();
 
-	public static void XMLParser(String fileDir) {
+	public  XMLParser(String fileDir) {
 		xmlDoc = getDocument(fileDir);
 		xmlDoc.getDocumentElement().normalize();
 		
 		System.out.println("Root element: " + xmlDoc.getDocumentElement().getNodeName());
+		
+		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0);
+		System.out.println("Root element: " + documentsInfo.getNodeName());
+		NodeList docInfoNodeList = documentsInfo.getChildNodes();
+		Node docInfoNode;
+		for(int i=0;i<docInfoNodeList.getLength();i++) {
+			docInfoNode = docInfoNodeList.item(i);
+			if(docInfoNode instanceof Element) {
+				System.out.println(docInfoNode.getNodeName() + ": " + docInfoNode.getTextContent());
+			}
+		}
+		System.out.println("==============================");
 
+		NodeList defaults = xmlDoc.getElementsByTagName("defaults");
+		System.out.println("Root element: " + defaults.item(0).getNodeName());
+		NodeList defaultsNodeList = defaults.item(0).getChildNodes();
+		Node defaultNode;
+		for(int i=0;i<defaultsNodeList.getLength();i++) {
+			defaultNode = defaultsNodeList.item(i);
+			if(defaultNode.getChildNodes().getLength() > 1) {
+				System.out.println(defaultNode.getNodeName() + " has child nodes");
+				if(defaultNode.getFirstChild().getChildNodes().getLength()>1) {
+					System.out.println(defaultNode.getFirstChild().getNodeName() + " has child nodes");
+				}
+			}else{
+				if(defaultNode instanceof Element) {
+					System.out.println(defaultNode.getNodeName() + ": " + defaultNode.getTextContent());
+				}
+			}
+		}
+		
 		NodeList slideList = xmlDoc.getElementsByTagName("slide");
+		
+		System.out.println("==============================");
 		System.out.println("Number of slides: " + slideList.getLength());
 		
-		for(int i=0; i<slideList.getLength();i=4) {
+		/*System.out.println("Root element: " + slideList.item(0).getNodeName());
+		NodeList slideNodeList = slideList.item(0).getChildNodes();
+		Node slideNode;*/
+		for(int j=0;j<slideList.getLength();j++) {
+			System.out.println("Root element: " + slideList.item(0).getNodeName());
+			NodeList slideNodeList = slideList.item(j).getChildNodes();
+			Node slideNode;
+			for(int i=0;i<slideNodeList.getLength();i++) {
+				slideNode = slideNodeList.item(i);
+				if(slideNode.getChildNodes().getLength() > 1) {
+					System.out.println(slideNode.getNodeName() + " has child nodes");
+					NodeList subSlideNodes = slideNode.getChildNodes();
+					for(int k=0;k<slideNode.getChildNodes().getLength();k++) {
+						Node subSlideNode = subSlideNodes.item(k);
+						if(subSlideNode.getChildNodes().getLength()>1) {
+							System.out.println("\t" + subSlideNode.getNodeName() + " has child nodes");
+						}
+					}
+				}else{
+					if(slideNode instanceof Element) {
+						System.out.println(slideNode.getNodeName() + ": " + slideNode.getTextContent());
+					}
+				}
+			}
+			System.out.println("==============================");
+		}
+		
+		/*for(int i=0; i<slideList.getLength();i=4) {
 			Node slideNode = slideList.item(i);
 			System.out.println("Current Element: " + slideNode.getNodeName());
 			if(slideNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element slideElement = (Element) slideNode;
-				System.out.println("Slide id: " + slideElement.getElementsByTagName("id").item(0).getTextContent());
+				System.out.println("ID: " + slideElement.getElementsByTagName("id").item(0).getTextContent());
+				System.out.println("DURATION: " + slideElement.getElementsByTagName("duration").item(0).getTextContent());
+				
+				System.out.println(slideNode.getChildNodes().getLength());
+				System.out.println(slideNode.getFirstChild().getNodeName());
+				System.out.println(slideNode.getLastChild().getNodeName());
+				System.out.println("==============================");
+
+				
+				
+				System.out.println("TEXT: " + slideElement.getElementsByTagName("text").item(0).getTextContent());
+				System.out.println("TEXT: " + slideElement.getNextSibling().getNodeName());
+		*/
+				
+				
+
+				
+				/*System.out.println("Slide id: " + slideElement.getElementsByTagName("id").item(0).getTextContent());
 				String id = slideElement.getElementsByTagName("id").item(0).getTextContent();
 				
 				System.out.println("Slide duration: " + slideElement.getElementsByTagName("duration").item(0).getTextContent());
@@ -47,55 +117,34 @@ public class XMLParser {
 				System.out.println("Slide text: " + slideElement.getElementsByTagName("text").item(0).getTextContent());
 				String string = slideElement.getElementsByTagName("text").item(0).getTextContent();
 				String[] textString = string.trim().split("\\s+");
-				System.out.println(textString.length);
-				for(int j=0;j<textString.length;j++) {
-					System.out.println(textString[j]);
-				}
 				
-				SlideText slideText = new SlideText(textString);
+				SlideText text = new SlideText(textString);
 				
 				System.out.println("Slide line: " + slideElement.getElementsByTagName("line").item(0).getTextContent());
+				string = slideElement.getElementsByTagName("line").item(0).getTextContent();
 				String[] lineProperties = string.trim().split("\\s+");
-				Line lineText = new Line(lineProperties);
-				
+				Line line = new Line(lineProperties);
+
 				System.out.println("Slide shape: " + slideElement.getElementsByTagName("shape").item(0).getTextContent());
 				String[] shapeProperties = string.trim().split("\\s+");
-				Shape shapeText = new Shape(shapeProperties);
+				Shape shape = new Shape(shapeProperties);
 				
 				System.out.println("Slide audio: " + slideElement.getElementsByTagName("audio").item(0).getTextContent());
 				String[] audioProperties = string.trim().split("\\s+");
-				Audio audioText = new Audio(audioProperties);
+				Audio audio = new Audio(audioProperties);
 				
 				System.out.println("Slide image: " + slideElement.getElementsByTagName("image").item(0).getTextContent());
 				String[] imageProperties = string.trim().split("\\s+");
-				Image imageText = new Image(imageProperties);
+				Image image = new Image(imageProperties);
 				
 				System.out.println("Slide video: " + slideElement.getElementsByTagName("video").item(0).getTextContent());
 				String[] videoProperties = string.trim().split("\\s+");
-				Video videoText = new Video(videoProperties);
+				Video video = new Video(videoProperties);
 				
-				Slide slide = new Slide(id, Integer.parseInt(duration), slideText, lineText, shapeText, audioText, imageText, videoText);
-				slides.add(slide);
-				/*while(slideElement.getNextSibling() != null) {
-				try{
-					slideElement = (Element) slideElement.getNextSibling();
-					System.out.println(slideElement.getNextSibling().getNodeName() + slideElement.getNextSibling().getTextContent());
-				}
-				catch(Exception e) {
-					break;
-				}
-			}*/
-			}
-		}
-		
-		/*Element root = xmlDoc.getDocumentElement();
-		Element slide = (Element)root.getFirstChild();
-		Slide s;
-		while(slide != null) {
-			s = getSlide(slide);
-			System.out.println(s.title + "," + s.slideNo);
-		}*/
+				Slide slide = new Slide(id, Integer.parseInt(duration), text, line, shape, audio, image, video);
+				slides.add(slide);*/
 	}
+	
 	
 	public static Document getDocument(String name) {
 		try {
@@ -113,53 +162,7 @@ public class XMLParser {
 	}
 	
 	public static void main(String[] args) {
-		//Schema schema = loadSchema(schemaName);
-		//xmlDoc = getDocument(xmlName);
-		//validateXML(xmlDoc, schema);
-		XMLParser(xmlName);
+		new XMLParser(xmlName);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	private static Slide getSlide(Element e) {
-		String slideTitle = e.getAttribute("title");
-		String slideNoString = e.getAttribute("slideNo");
-		int slideNo = Integer.parseInt(slideNoString);
-		return new Slide(slideTitle, slideNo);
-	}
-	
-	public static void validateXML(Document xml, Schema schema) {
-		try {
-			Validator validator = schema.newValidator();
-			validator.validate(new DOMSource(xml));
-			System.out.println("Validation Passed...");
-		}catch(Exception e) {
-			System.out.println(e.toString());
-		}
-		
-	}
-	
-	public static Schema loadSchema(String schemaName) {
-		Schema schema = null;
-		try {
-			String language = XMLConstants.DEFAULT_NS_PREFIX;
-			SchemaFactory factory = SchemaFactory.newInstance(language);
-			schema = factory.newSchema(new File(schemaName));
-		}catch(Exception e) {
-			System.out.println(e.toString());
-		}
-		return schema;
-	}
 }
