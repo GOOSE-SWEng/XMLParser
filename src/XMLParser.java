@@ -13,30 +13,32 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 public class XMLParser {
+	//Initialise the schema and xml for parsing
 	static String schemaName = "src/schema.xsd";
 	static String xmlName = "src/xml.xml";
 	static Document xmlDoc;
-	public static ArrayList<Slide> slides = new ArrayList<>();
+	//public static ArrayList<Slide> slides = new ArrayList<>();
 
 	public  XMLParser(String fileDir) {
-		xmlDoc = getDocument(fileDir);
+		xmlDoc = getDocument(fileDir); //Store the document in memory
 		xmlDoc.getDocumentElement().normalize();
 		
 		System.out.println("Root element: " + xmlDoc.getDocumentElement().getNodeName());
 		
-		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0);
+		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0); //Get docInfo tag
 		System.out.println("Root element: " + documentsInfo.getNodeName());
-		NodeList docInfoNodeList = documentsInfo.getChildNodes();
-		Node docInfoNode;
-		for(int i=0;i<docInfoNodeList.getLength();i++) {
-			docInfoNode = docInfoNodeList.item(i);
-			if(docInfoNode instanceof Element) {
+		NodeList docInfoNodeList = documentsInfo.getChildNodes(); //Create nodelist of subtags
+		Node docInfoNode; //Initialise node
+		for(int i=0;i<docInfoNodeList.getLength();i++) { //Loop through amount of subtags
+			docInfoNode = docInfoNodeList.item(i); //Store current node
+			if(docInfoNode instanceof Element) { //If there is a printable element
+				//STORE HERE
 				System.out.println(docInfoNode.getNodeName() + ": " + docInfoNode.getTextContent());
 			}
 		}
 		System.out.println("==============================");
 
-		NodeList defaults = xmlDoc.getElementsByTagName("defaults");
+		NodeList defaults = xmlDoc.getElementsByTagName("defaults"); //Get defaults tag
 		System.out.println("Root element: " + defaults.item(0).getNodeName());
 		NodeList defaultsNodeList = defaults.item(0).getChildNodes();
 		Node defaultNode;
