@@ -24,7 +24,8 @@ public class XMLParser {
 		xmlDoc.getDocumentElement().normalize();
 		
 		System.out.println("Root element: " + xmlDoc.getDocumentElement().getNodeName());
-		
+		System.out.println("==============================");
+
 		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0); //Get docInfo tag
 		System.out.println("Root element: " + documentsInfo.getNodeName());
 		NodeList docInfoNodeList = documentsInfo.getChildNodes(); //Create nodelist of subtags
@@ -39,123 +40,64 @@ public class XMLParser {
 		System.out.println("==============================");
 
 		NodeList defaults = xmlDoc.getElementsByTagName("defaults"); //Get defaults tag
-		System.out.println("Root element: " + defaults.item(0).getNodeName());
-		NodeList defaultsNodeList = defaults.item(0).getChildNodes();
-		Node defaultNode;
-		for(int i=0;i<defaultsNodeList.getLength();i++) {
-			defaultNode = defaultsNodeList.item(i);
-			if(defaultNode.getChildNodes().getLength() > 1) {
-				System.out.println(defaultNode.getNodeName() + " has child nodes");
-				if(defaultNode.getFirstChild().getChildNodes().getLength()>1) {
-					System.out.println(defaultNode.getFirstChild().getNodeName() + " has child nodes");
-				}
-			}else{
-				if(defaultNode instanceof Element) {
-					System.out.println(defaultNode.getNodeName() + ": " + defaultNode.getTextContent());
-				}
+		System.out.println("Root element: " + defaults.item(0).getNodeName()); //Gets name of default tag
+		NodeList defaultsNodeList = defaults.item(0).getChildNodes(); //Create nodelist of subtags
+		Node defaultNode; //Initialise node
+		for(int i=0;i<defaultsNodeList.getLength();i++) { //Loop through amount of subtags
+			defaultNode = defaultsNodeList.item(i); //Store current node
+			if(defaultNode instanceof Element) { //If the tag has printable elements
+				System.out.println(defaultNode.getNodeName() + ": " + defaultNode.getTextContent());
 			}
 		}
 		
-		NodeList slideList = xmlDoc.getElementsByTagName("slide");
+		NodeList slideList = xmlDoc.getElementsByTagName("slide"); //Create list of slide tags
 		
 		System.out.println("==============================");
-		System.out.println("Number of slides: " + slideList.getLength());
+		System.out.println("Number of slides: " + slideList.getLength()); //Show number of slides
 		
-		/*System.out.println("Root element: " + slideList.item(0).getNodeName());
-		NodeList slideNodeList = slideList.item(0).getChildNodes();
-		Node slideNode;*/
-		for(int j=0;j<slideList.getLength();j++) {
-			System.out.println("Root element: " + slideList.item(0).getNodeName());
-			NodeList slideNodeList = slideList.item(j).getChildNodes();
-			Node slideNode;
-			for(int i=0;i<slideNodeList.getLength();i++) {
-				slideNode = slideNodeList.item(i);
-				if(slideNode.getChildNodes().getLength() > 1) {
-					System.out.println(slideNode.getNodeName() + " has child nodes");
-					NodeList subSlideNodes = slideNode.getChildNodes();
-					for(int k=0;k<slideNode.getChildNodes().getLength();k++) {
-						Node subSlideNode = subSlideNodes.item(k);
-						if(subSlideNode.getChildNodes().getLength()>1) {
-							System.out.println("\t" + subSlideNode.getNodeName() + " has child nodes");
+		for(int j=0;j<slideList.getLength();j++) { //Cycle through each slide tag
+			System.out.println("Root element: " + slideList.item(0).getNodeName()); //Get first tag name
+			NodeList slideNodeList = slideList.item(j).getChildNodes(); //Gets tags from slides
+			Node slideNode; //Node for a slide
+			for(int i=0;i<slideNodeList.getLength();i++) { //Cycles through tags in a slide tag
+				slideNode = slideNodeList.item(i); //Gets current node in slide
+				if(slideNode.getChildNodes().getLength() > 1) { //If current node has sub nodes E.g Text has font...
+					System.out.println(slideNode.getNodeName() + ":");
+					NodeList subSlideNodeList = slideNode.getChildNodes(); //Store sub nodes in a list
+					Node subSlideNode;
+					for(int k=0;k<subSlideNodeList.getLength();k++) { //Cycle through sub tags
+						subSlideNode = subSlideNodeList.item(k);
+						if(subSlideNode.getChildNodes().getLength()>1) { //If there is a sub sub tag E.g Shape has shading, which has colour
+							System.out.println("\t" + subSlideNode.getNodeName() + ":");
+							NodeList subSubSlideNodes = subSlideNode.getChildNodes(); //Create list of sub sub tags
+							Node subSubSlideNode;
+							for(int z=0;z<subSubSlideNodes.getLength();z++) { //Cycle through sub sub tags
+								subSubSlideNode = subSubSlideNodes.item(z);
+								if(subSubSlideNode instanceof Element) { //If the tag has printable elements
+									System.out.println("\t\t" + subSubSlideNode.getNodeName() + ": " + subSubSlideNode.getTextContent());
+								}
+							}
+						}
+						else if(subSlideNode instanceof Element) { //If the sub tag has no sub sub tags and it has a printable elements
+							System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
 						}
 					}
-				}else{
-					if(slideNode instanceof Element) {
-						System.out.println(slideNode.getNodeName() + ": " + slideNode.getTextContent());
-					}
+				}else if(slideNode instanceof Element) { //If the tag has no sub tags and it has a printable elements
+					System.out.println(slideNode.getNodeName() + ": " + slideNode.getTextContent());
 				}
 			}
 			System.out.println("==============================");
 		}
-		
-		/*for(int i=0; i<slideList.getLength();i=4) {
-			Node slideNode = slideList.item(i);
-			System.out.println("Current Element: " + slideNode.getNodeName());
-			if(slideNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element slideElement = (Element) slideNode;
-				System.out.println("ID: " + slideElement.getElementsByTagName("id").item(0).getTextContent());
-				System.out.println("DURATION: " + slideElement.getElementsByTagName("duration").item(0).getTextContent());
-				
-				System.out.println(slideNode.getChildNodes().getLength());
-				System.out.println(slideNode.getFirstChild().getNodeName());
-				System.out.println(slideNode.getLastChild().getNodeName());
-				System.out.println("==============================");
-
-				
-				
-				System.out.println("TEXT: " + slideElement.getElementsByTagName("text").item(0).getTextContent());
-				System.out.println("TEXT: " + slideElement.getNextSibling().getNodeName());
-		*/
-				
-				
-
-				
-				/*System.out.println("Slide id: " + slideElement.getElementsByTagName("id").item(0).getTextContent());
-				String id = slideElement.getElementsByTagName("id").item(0).getTextContent();
-				
-				System.out.println("Slide duration: " + slideElement.getElementsByTagName("duration").item(0).getTextContent());
-				String duration = slideElement.getElementsByTagName("duration").item(0).getTextContent();
-				
-				System.out.println("Slide text: " + slideElement.getElementsByTagName("text").item(0).getTextContent());
-				String string = slideElement.getElementsByTagName("text").item(0).getTextContent();
-				String[] textString = string.trim().split("\\s+");
-				
-				SlideText text = new SlideText(textString);
-				
-				System.out.println("Slide line: " + slideElement.getElementsByTagName("line").item(0).getTextContent());
-				string = slideElement.getElementsByTagName("line").item(0).getTextContent();
-				String[] lineProperties = string.trim().split("\\s+");
-				Line line = new Line(lineProperties);
-
-				System.out.println("Slide shape: " + slideElement.getElementsByTagName("shape").item(0).getTextContent());
-				String[] shapeProperties = string.trim().split("\\s+");
-				Shape shape = new Shape(shapeProperties);
-				
-				System.out.println("Slide audio: " + slideElement.getElementsByTagName("audio").item(0).getTextContent());
-				String[] audioProperties = string.trim().split("\\s+");
-				Audio audio = new Audio(audioProperties);
-				
-				System.out.println("Slide image: " + slideElement.getElementsByTagName("image").item(0).getTextContent());
-				String[] imageProperties = string.trim().split("\\s+");
-				Image image = new Image(imageProperties);
-				
-				System.out.println("Slide video: " + slideElement.getElementsByTagName("video").item(0).getTextContent());
-				String[] videoProperties = string.trim().split("\\s+");
-				Video video = new Video(videoProperties);
-				
-				Slide slide = new Slide(id, Integer.parseInt(duration), text, line, shape, audio, image, video);
-				slides.add(slide);*/
 	}
-	
 	
 	public static Document getDocument(String name) {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); //Create factory to build a documents
 			factory.setIgnoringComments(true);
-			factory.setIgnoringElementContentWhitespace(true);
+			factory.setIgnoringElementContentWhitespace(true); //Ignore whitespace
 			factory.setValidating(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			return builder.parse(new InputSource(name));
+			return builder.parse(new InputSource(name)); //Return a parsed document
 		}
 		catch(ParserConfigurationException | IOException | SAXException e) {
 			System.out.println(e);
