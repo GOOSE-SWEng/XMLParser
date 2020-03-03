@@ -93,7 +93,7 @@ public class XMLParser {
 	public static Document getDocument(String name) {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); //Create factory to build a documents
-			factory.setIgnoringComments(true);
+			factory.setIgnoringComments(true); //Ignores commented out XML
 			factory.setIgnoringElementContentWhitespace(true); //Ignore whitespace
 			factory.setValidating(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
