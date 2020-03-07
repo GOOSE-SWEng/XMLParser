@@ -20,69 +20,123 @@ public class XMLParser {
 	//public static ArrayList<Slide> slides = new ArrayList<>();
 
 	public  XMLParser(String fileDir) {
-		xmlDoc = getDocument(fileDir); //Store the document in memory
+		//Store the document in memory
+		xmlDoc = getDocument(fileDir); 
 		xmlDoc.getDocumentElement().normalize();
 		
 		System.out.println("Root element: " + xmlDoc.getDocumentElement().getNodeName());
 		System.out.println("==============================");
 
-		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0); //Get docInfo tag
+		//Get docInfo tag
+		Node documentsInfo = xmlDoc.getElementsByTagName("documentinfo").item(0); 
 		System.out.println("Root element: " + documentsInfo.getNodeName());
-		NodeList docInfoNodeList = documentsInfo.getChildNodes(); //Create nodelist of subtags
-		Node docInfoNode; //Initialise node
-		for(int i=0;i<docInfoNodeList.getLength();i++) { //Loop through amount of subtags
-			docInfoNode = docInfoNodeList.item(i); //Store current node
-			if(docInfoNode instanceof Element) { //If there is a printable element
+		
+		//Create nodelist of subtags
+		NodeList docInfoNodeList = documentsInfo.getChildNodes();
+		
+		//Initialise node
+		Node docInfoNode; 
+		
+		/*
+		 * For loop loops through amount of subtags
+		 * stores the current node
+		 * and stores it if it is a printable element 
+		 */
+		for(int i=0;i<docInfoNodeList.getLength();i++) { 
+			docInfoNode = docInfoNodeList.item(i); 
+			if(docInfoNode instanceof Element) { 
 				//STORE HERE
 				System.out.println(docInfoNode.getNodeName() + ": " + docInfoNode.getTextContent());
 			}
 		}
 		System.out.println("==============================");
 
-		NodeList defaults = xmlDoc.getElementsByTagName("defaults"); //Get defaults tag
-		System.out.println("Root element: " + defaults.item(0).getNodeName()); //Gets name of default tag
-		NodeList defaultsNodeList = defaults.item(0).getChildNodes(); //Create nodelist of subtags
-		Node defaultNode; //Initialise node
-		for(int i=0;i<defaultsNodeList.getLength();i++) { //Loop through amount of subtags
-			defaultNode = defaultsNodeList.item(i); //Store current node
-			if(defaultNode instanceof Element) { //If the tag has printable elements
+		//Get defaults tag
+		NodeList defaults = xmlDoc.getElementsByTagName("defaults"); 
+		//Gets name of default tag
+		System.out.println("Root element: " + defaults.item(0).getNodeName()); 
+		//Create nodelist of subtags
+		NodeList defaultsNodeList = defaults.item(0).getChildNodes(); 
+		
+		//Initialise node
+		Node defaultNode; 
+		
+		/*
+		 * For loop loops through amount of subtags
+		 * stores the current node
+		 * and stores it if it is a printable element 
+		 */
+		for(int i=0;i<defaultsNodeList.getLength();i++) { 
+			defaultNode = defaultsNodeList.item(i); 
+			if(defaultNode instanceof Element) { 
 				System.out.println(defaultNode.getNodeName() + ": " + defaultNode.getTextContent());
 			}
 		}
 		
-		NodeList slideList = xmlDoc.getElementsByTagName("slide"); //Create list of slide tags
+		//Create list of slide tags
+		NodeList slideList = xmlDoc.getElementsByTagName("slide"); 
 		
+		//Show number of slides
 		System.out.println("==============================");
-		System.out.println("Number of slides: " + slideList.getLength()); //Show number of slides
+		System.out.println("Number of slides: " + slideList.getLength());
 		
-		for(int j=0;j<slideList.getLength();j++) { //Cycle through each slide tag
-			System.out.println("Root element: " + slideList.item(0).getNodeName()); //Get first tag name
-			NodeList slideNodeList = slideList.item(j).getChildNodes(); //Gets tags from slides
-			Node slideNode; //Node for a slide
-			for(int i=0;i<slideNodeList.getLength();i++) { //Cycles through tags in a slide tag
-				slideNode = slideNodeList.item(i); //Gets current node in slide
-				if(slideNode.getChildNodes().getLength() > 1) { //If current node has sub nodes E.g Text has font...
+		/*
+		 * Cycles through each slide tag
+		 * Gets first tag name
+		 * Gets tags from slides
+		 * Creates a node for each slide
+		 */
+		for(int j=0;j<slideList.getLength();j++) { 
+			System.out.println("Root element: " + slideList.item(0).getNodeName()); 
+			NodeList slideNodeList = slideList.item(j).getChildNodes(); 
+			Node slideNode; 
+			
+			/*
+			 * Cycles through tags in a slide tag
+			 * Gets current node in slide
+			 */
+			for(int i=0;i<slideNodeList.getLength();i++) { 
+				slideNode = slideNodeList.item(i); 
+				
+				//If current node has sub nodes E.g Text has font...
+				if(slideNode.getChildNodes().getLength() > 1) { 
 					System.out.println(slideNode.getNodeName() + ":");
-					NodeList subSlideNodeList = slideNode.getChildNodes(); //Store sub nodes in a list
+					
+					//Store sub nodes in a list
+					NodeList subSlideNodeList = slideNode.getChildNodes(); 
 					Node subSlideNode;
-					for(int k=0;k<subSlideNodeList.getLength();k++) { //Cycle through sub tags
+					
+					/*
+					 * Cycle through sub tags
+					 * If there is a sub sub tag E.g Shape has shading, which has colour
+					 * Create list of sub sub tags
+					 */
+					for(int k=0;k<subSlideNodeList.getLength();k++) { 
 						subSlideNode = subSlideNodeList.item(k);
-						if(subSlideNode.getChildNodes().getLength()>1) { //If there is a sub sub tag E.g Shape has shading, which has colour
+						if(subSlideNode.getChildNodes().getLength()>1) { 
 							System.out.println("\t" + subSlideNode.getNodeName() + ":");
-							NodeList subSubSlideNodes = subSlideNode.getChildNodes(); //Create list of sub sub tags
+							NodeList subSubSlideNodes = subSlideNode.getChildNodes(); 
 							Node subSubSlideNode;
-							for(int z=0;z<subSubSlideNodes.getLength();z++) { //Cycle through sub sub tags
+							
+							/*
+							 * Cycle through sub sub tags
+							 */
+							for(int z=0;z<subSubSlideNodes.getLength();z++) { 
 								subSubSlideNode = subSubSlideNodes.item(z);
-								if(subSubSlideNode instanceof Element) { //If the tag has printable elements
+								//If the tag has printable elements
+								if(subSubSlideNode instanceof Element) { 
 									System.out.println("\t\t" + subSubSlideNode.getNodeName() + ": " + subSubSlideNode.getTextContent());
 								}
 							}
 						}
-						else if(subSlideNode instanceof Element) { //If the sub tag has no sub sub tags and it has a printable elements
+						//If the sub tag has no sub sub tags and it has a printable elements
+						else if(subSlideNode instanceof Element) { 
 							System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
 						}
 					}
-				}else if(slideNode instanceof Element) { //If the tag has no sub tags and it has a printable elements
+				}
+				//If the tag has no sub tags and it has a printable elements
+				else if(slideNode instanceof Element) { 
 					System.out.println(slideNode.getNodeName() + ": " + slideNode.getTextContent());
 				}
 			}
@@ -90,14 +144,21 @@ public class XMLParser {
 		}
 	}
 	
+	/*
+	 * Create a factory to build a document
+	 * Method ignores commented out XML and whitespace
+	 * takes the directory for the XML file as a parameter
+	 * returns a parsed document
+	 */
 	public static Document getDocument(String name) {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); //Create factory to build a documents
-			factory.setIgnoringComments(true); //Ignores commented out XML
-			factory.setIgnoringElementContentWhitespace(true); //Ignore whitespace
+			
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); 
+			factory.setIgnoringComments(true);
+			factory.setIgnoringElementContentWhitespace(true); 
 			factory.setValidating(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			return builder.parse(new InputSource(name)); //Return a parsed document
+			return builder.parse(new InputSource(name)); 
 		}
 		catch(ParserConfigurationException | IOException | SAXException e) {
 			System.out.println(e);
