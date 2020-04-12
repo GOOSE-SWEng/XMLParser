@@ -1,21 +1,29 @@
 import java.awt.Color;
 
+import javafx.scene.SubScene;
+import javafx.scene.layout.StackPane;
+
 public class Video {
-	int xstart = 0;
-	int ystart = 0;
-	int xend = 100;
-	int yend = 100;
-	Color linecolor = Color.BLACK;
-	String starttime = "0";
-	String endtime = "100";
+	int xstart;
+	int ystart;
+	int startTime;
+	int canvasWidth;
+	int canvasHeight;
+	String urlName;
+	Boolean loop;
+	SubScene subScene;
 	
-	public Video(String[] string) {
-		this.xstart = Integer.parseInt(string[0]);
-		this.ystart = Integer.parseInt(string[1]);
-		this.xend = Integer.parseInt(string[2]);
-		this.yend = Integer.parseInt(string[3]);
-		this.linecolor = Color.getColor(string[4]);
-		this.starttime = string[5];
-		this.endtime = string[6];
+	public Video(String urlName, int startTime, Boolean loop, int xStart, int yStart, int canvasWidth, int canvasHeight) {
+		// construct video object using these
+		//create the SubScene object
+	}
+	public SubScene get() {
+		return subScene;
+	}
+	public void remove() {
+		//remove video from the subscene
+	}
+	public void start() {
+		//starts playing the video
 	}
 }

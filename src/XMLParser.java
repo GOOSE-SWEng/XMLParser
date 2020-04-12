@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -98,6 +99,25 @@ public class XMLParser {
 			for(int i=0;i<slideNodeList.getLength();i++) { 
 				slideNode = slideNodeList.item(i); 
 				
+				if(slideNode.getNodeName() == "video") {
+					videoParse(slideNode);
+				}else if(slideNode.getNodeName() == "text") {
+					textParse(slideNode);
+				}else if(slideNode.getNodeName() == "audio") {
+					audioParse(slideNode);
+				}else if(slideNode.getNodeName() == "image") {
+					imageParse(slideNode);
+				}else if(slideNode.getNodeName() == "shape") {
+					shapeParse(slideNode);
+				}else if(slideNode.getNodeName() == "line") {
+					lineParse(slideNode);
+				}else if(slideNode.getNodeName() == "3dmodel") {
+					modelParse(slideNode);
+				}else{
+					if(slideNode instanceof Element) {
+						System.out.println(slideNode.getNodeName() + " is an unrecognised node name");
+					}
+				}
 				//If current node has sub nodes E.g Text has font...
 				if(slideNode.getChildNodes().getLength() > 1) { 
 					System.out.println(slideNode.getNodeName() + ":");
@@ -150,13 +170,14 @@ public class XMLParser {
 	 * takes the directory for the XML file as a parameter
 	 * returns a parsed document
 	 */
+
 	public static Document getDocument(String name) {
 		try {
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); 
 			factory.setIgnoringComments(true);
 			factory.setIgnoringElementContentWhitespace(true); 
-			factory.setValidating(true);
+			//factory.setValidating(true);
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			return builder.parse(new InputSource(name)); 
 		}
@@ -164,6 +185,177 @@ public class XMLParser {
 			System.out.println(e);
 		}
 		return null;
+	}
+	
+	public void videoParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void imageParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void shapeParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				if(subSlideNode.getChildNodes().getLength()>1) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ":");
+					NodeList subSubSlideNodes = subSlideNode.getChildNodes(); 
+					Node subSubSlideNode;
+					
+					/*
+					 * Cycle through sub sub tags
+					 */
+					for(int z=0;z<subSubSlideNodes.getLength();z++) { 
+						subSubSlideNode = subSubSlideNodes.item(z);
+						//If the tag has printable elements
+						if(subSubSlideNode instanceof Element) { 
+							System.out.println("\t\t" + subSubSlideNode.getNodeName() + ": " + subSubSlideNode.getTextContent());
+						}
+					}
+				}
+				//If the sub tag has no sub sub tags and it has a printable elements
+				else if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void textParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void audioParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void lineParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
+	}
+	public void modelParse(Node slideNode) {
+		if(slideNode.getChildNodes().getLength() > 1) { 
+			System.out.println(slideNode.getNodeName() + ":");
+			
+			//Store sub nodes in a list
+			NodeList subSlideNodeList = slideNode.getChildNodes(); 
+			Node subSlideNode;
+			
+			/*
+			 * Cycle through sub tags
+			 * If there is a sub sub tag E.g Shape has shading, which has colour
+			 * Create list of sub sub tags
+			 */
+			for(int k=0;k<subSlideNodeList.getLength();k++) { 
+				subSlideNode = subSlideNodeList.item(k);
+				//If the sub tag has no sub sub tags and it has a printable elements
+				if(subSlideNode instanceof Element) { 
+					System.out.println("\t" + subSlideNode.getNodeName() + ": " + subSlideNode.getTextContent());
+				}
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
