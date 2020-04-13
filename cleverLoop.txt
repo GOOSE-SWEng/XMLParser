@@ -1,0 +1,43 @@
+	public void getSubNodes(NodeList subNodeList) {
+		for(int i =0;i<subNodeList.getLength();i++) {
+			Node currentNode = subNodeList.item(i);
+			if(currentNode instanceof Element) {
+				if(currentNode.getNodeName() == "video") {
+					videoParse(currentNode);
+				}else if(currentNode.getNodeName() == "text") {
+					textParse(currentNode);
+				}else if(currentNode.getNodeName() == "audio") {
+					audioParse(currentNode);
+				}else if(currentNode.getNodeName() == "image") {
+					imageParse(currentNode);
+				}else if(currentNode.getNodeName() == "shape") {
+					shapeParse(currentNode);
+				}else if(currentNode.getNodeName() == "line") {
+					lineParse(currentNode);
+				}else if(currentNode.getNodeName() == "3dmodel") {
+					modelParse(currentNode);
+				}else{
+					if(currentNode instanceof Element) {
+						System.out.println(currentNode.getNodeName() + " is an unrecognised slide node name");
+					}
+				}
+				
+				System.out.println(currentNode.getNodeName());
+				if(currentNode.getTextContent().trim() == "" | currentNode.getTextContent() == "/t") {
+				}else {
+					System.out.println("Content : " +currentNode.getTextContent().trim());
+				}
+				if(currentNode.hasAttributes()) {
+					NamedNodeMap attMap = currentNode.getAttributes();
+					System.out.print("Attributes= ");
+					for(int j=0 ; j<attMap.getLength();j++) {
+						System.out.print(attMap.item(j).getNodeName() + ": " + attMap.item(j).getNodeValue() + " | ");
+					}
+					System.out.println("");
+				}else{}
+				if(currentNode.hasChildNodes()) {
+					getSubNodes(currentNode.getChildNodes());
+				}else{}
+			}
+		}
+	}

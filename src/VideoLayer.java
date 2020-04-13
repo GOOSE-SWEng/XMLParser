@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import javafx.scene.SubScene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.StackPane;
 
 public class VideoLayer {
